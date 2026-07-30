@@ -19,8 +19,18 @@ pnpm build     # genera docs/.vitepress/dist
 pnpm preview   # sirve el resultado localmente
 ```
 
-El resultado es HTML estático: se publica en cualquier hosting (Cloudflare Pages,
-Netlify, GitHub Pages, S3, nginx).
+El resultado es HTML estático. Hay dos despliegues preparados:
+
+**GitHub Pages** — `.github/workflows/pages.yml` publica en cada push a `main`.
+Requiere activar Pages en *Settings → Pages → Source: GitHub Actions*. El workflow
+define `DOCS_BASE=/<repo>/` porque el sitio cuelga de un subdirectorio; si usas un
+dominio propio, quita esa variable.
+
+**Netlify** — `netlify.toml` ya trae el comando y el directorio de publicación.
+Se sirve desde la raíz, así que no necesita `DOCS_BASE`.
+
+En ambos casos el build corre `pnpm approve-builds --all` primero: sin eso pnpm no
+instala el binario de esbuild y VitePress no compila.
 
 ## Estructura
 

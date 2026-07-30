@@ -1,0 +1,15 @@
+# Alternativa a GitHub Pages. En Netlify el sitio se sirve desde la raíz,
+# así que no se define DOCS_BASE.
+[build]
+  command = "pnpm approve-builds --all && pnpm build"
+  publish = "docs/.vitepress/dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+  PNPM_VERSION = "11"
+
+# VitePress genera HTML estático con cleanUrls; Netlify resuelve /ruta -> /ruta.html
+[[redirects]]
+  from = "/*"
+  to = "/404.html"
+  status = 404

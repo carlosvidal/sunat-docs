@@ -1,6 +1,13 @@
 import { defineConfig } from 'vitepress';
 
+/*
+ * En GitHub Pages el sitio cuelga de /<repo>/, así que el workflow define
+ * DOCS_BASE. En Netlify o dominio propio se sirve desde la raíz y no hace falta.
+ */
+const base = process.env.DOCS_BASE ?? '/';
+
 export default defineConfig({
+  base,
   lang: 'es-PE',
   title: 'Facturación Electrónica SUNAT',
   description: 'Manual del microservicio de emisión electrónica (SEE - Del Contribuyente) para Perú.',

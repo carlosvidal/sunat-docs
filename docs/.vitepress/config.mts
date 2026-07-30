@@ -21,6 +21,7 @@ export default defineConfig({
       { text: 'Comprobantes', link: '/comprobantes/factura-boleta' },
       { text: 'Casos de uso', link: '/casos/' },
       { text: 'Referencia', link: '/referencia/estados' },
+      { text: 'GitHub', link: 'https://github.com/carlosvidal/sunat-service' },
     ],
 
     sidebar: [
@@ -71,7 +72,7 @@ export default defineConfig({
           { text: 'Diccionario de campos', link: '/referencia/campos' },
           { text: 'Catálogos SUNAT', link: '/referencia/catalogos' },
           { text: 'API HTTP', link: '/referencia/api' },
-          { text: 'Migrar desde APIsPERU', link: '/referencia/migracion' },
+          { text: 'Migrar desde otro proveedor', link: '/referencia/migracion' },
         ],
       },
     ],
@@ -84,8 +85,8 @@ export default defineConfig({
     returnToTopLabel: 'Volver arriba',
     sidebarMenuLabel: 'Menú',
     footer: {
-      message: 'Manual del microservicio de emisión electrónica SUNAT.',
-      copyright: 'MiTienda',
+      message: 'Publicado bajo licencia MIT.',
+      copyright: 'Copyright © 2026 Carlos Vidal',
     },
   },
 });

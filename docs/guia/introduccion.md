@@ -46,15 +46,17 @@ una empresa jamás son visibles para otra.
 **Comprobante.** Todo lo que emites queda registrado con su estado, su número
 correlativo y sus archivos. Puedes consultarlo por API o desde el backoffice.
 
-## Compatibilidad con Greenter y APIsPERU
+## Compatibilidad con Greenter
 
-La estructura de los payloads es la misma que usan
-[Greenter](https://greenter.dev) y APIsPERU: los campos `tipoDoc`, `serie`,
-`details`, `tipAfeIgv`, `mtoValorUnitario`, etc. significan exactamente lo mismo y
-producen el mismo XML.
+La estructura de los payloads es la misma que usa
+[Greenter](https://greenter.dev), el proyecto de código abierto que se volvió el
+estándar de facto para facturación electrónica peruana: los campos `tipoDoc`,
+`serie`, `details`, `tipAfeIgv`, `mtoValorUnitario`, etc. significan exactamente lo
+mismo y producen el mismo XML.
 
-Si hoy consumes APIsPERU, migrar es cambiar la URL base y el token. Ver
-[Migrar desde APIsPERU](/referencia/migracion).
+Eso significa que si tu sistema ya emite con ese formato —directamente con Greenter o
+a través de un proveedor que lo adoptó— migrar es cambiar la URL base y el token. Ver
+[Migrar desde otro proveedor](/referencia/migracion).
 
 ## Requisitos
 

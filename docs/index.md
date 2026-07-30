@@ -20,7 +20,7 @@ features:
   - title: Todos los comprobantes
     details: Factura (01), boleta (03), notas (07 y 08), retención (20), percepción (40), resumen diario (RC), comunicación de baja (RA) y guía de remisión (GRE 2022).
   - title: JSON, no XML
-    details: Envías un JSON con los ítems y el servicio calcula IGV, ISC, ICBPER, totales y la leyenda del monto en letras. La estructura es compatible con Greenter y APIsPERU.
+    details: Envías un JSON con los ítems y el servicio calcula IGV, ISC, ICBPER, totales y la leyenda del monto en letras. El formato es el de Greenter, el estándar de facto del ecosistema peruano.
   - title: No bloquea la venta
     details: Emisión síncrona cuando necesitas la CDR al instante, o encolada con reintentos ante caídas de SUNAT y notificación por webhook.
   - title: Multiempresa y seguro

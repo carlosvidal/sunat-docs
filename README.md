@@ -1,8 +1,11 @@
 # Manual de Facturación Electrónica SUNAT
 
-Sitio de documentación del microservicio de emisión electrónica (SEE – Del
-Contribuyente). Construido con [VitePress](https://vitepress.dev): páginas en
-Markdown, sitio estático.
+Sitio de documentación del [microservicio de emisión
+electrónica](https://github.com/carlosvidal/sunat-service) (SEE – Del Contribuyente)
+para Perú. Construido con [VitePress](https://vitepress.dev): páginas en Markdown,
+sitio estático.
+
+📖 **[Leer el manual](https://carlosvidal.github.io/sunat-docs/)**
 
 ## Desarrollo
 
@@ -54,3 +57,7 @@ docs/
   lo que causa un rechazo de SUNAT o una pérdida de datos.
 - Al agregar una página, enlázala en la barra lateral de `config.mts`; el build falla
   si un enlace apunta a una página inexistente.
+
+## Licencia
+
+[MIT](LICENSE) © Carlos Vidal

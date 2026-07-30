@@ -1,11 +1,12 @@
-# Migrar desde APIsPERU
+# Migrar desde otro proveedor
 
-La estructura de los comprobantes es la misma, así que la migración es en gran medida
-un cambio de URL y de token.
+Los payloads siguen el formato de [Greenter](https://greenter.dev), que es el que
+usan la mayoría de proveedores de facturación electrónica en Perú. Si tu sistema ya
+emite con ese formato, la migración es en gran medida un cambio de URL y de token.
 
 ## Equivalencia de endpoints
 
-| APIsPERU | Este servicio |
+| Formato Greenter | Este servicio |
 | --- | --- |
 | `POST /invoice/send` | `POST /invoice/send` |
 | `POST /invoice/xml` | `POST /invoice/xml` |
@@ -18,8 +19,8 @@ un cambio de URL y de token.
 | `POST /despatch/send` | `POST /despatch/send` |
 | `POST /retention/send` | `POST /retention/send` |
 | `POST /perception/send` | `POST /perception/send` |
-| `POST /companies` | `POST /companies` (con `X-API-Key`) |
-| `POST /auth/login` | No existe: el token se entrega al crear la empresa. |
+| Alta de empresa | `POST /companies` (con `X-API-Key`) |
+| Login de usuario | No existe: el token se entrega al crear la empresa. |
 
 ## Qué cambia en el payload
 
@@ -55,11 +56,9 @@ Y se agregan campos propios:
 
 ## Alta de empresas
 
-En APIsPERU se crea una empresa con el token de usuario. Aquí se usa la clave maestra
-de la plataforma (`X-API-Key`) y el certificado se envía como `.pfx` en base64 —no
-hace falta convertirlo a PEM previamente, el servicio lo hace.
-
-Ver [Registrar una empresa](/guia/empresas).
+El certificado se envía como `.pfx` o `.p12` en base64; no hace falta convertirlo a
+PEM previamente, el servicio lo hace. Ver
+[Registrar una empresa](/guia/empresas).
 
 ## Plan de migración sugerido
 
@@ -67,7 +66,7 @@ Ver [Registrar una empresa](/guia/empresas).
 2. Reproduce en BETA los comprobantes típicos del negocio con los payloads que ya
    usas. No deberían requerir cambios.
 3. Cambia la empresa a `produccion` y **sincroniza el correlativo**: envía el primer
-   comprobante con el número que sigue al último emitido por APIsPERU.
+   comprobante con el número que sigue al último emitido.
 4. Emite en paralelo unos días si quieres red de seguridad, comparando resultados.
 5. Apaga la integración anterior.
 

@@ -39,6 +39,44 @@ Base: `/api/v1`. La referencia interactiva y siempre actualizada está en **`/do
 
 Todos los grupos aceptan además `/xml`, `/pdf` y `/enqueue` según corresponda.
 
+### Evitar comprobantes duplicados: `Idempotency-Key`
+
+`POST /invoice/send` y `POST /note/send` aceptan la cabecera `Idempotency-Key`: una
+clave única que genera el cliente, normalmente un UUID, de hasta 64 caracteres.
+
+Sirve para el caso en que la petición sale pero la respuesta se pierde —red móvil
+inestable, timeout, proceso que muere a mitad—. Sin la cabecera, reintentar emite un
+segundo comprobante con otro correlativo. Con ella, el reintento devuelve el resultado
+de la primera llamada:
+
+```bash
+curl -X POST https://tu-servicio/api/v1/invoice/send \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Idempotency-Key: 9f2c8b1e-5d3a-4c7f-9e10-2a6b4d8c0f31" \
+  -H 'Content-Type: application/json' \
+  -d @boleta.json
+```
+
+| Situación | Respuesta |
+| --- | --- |
+| Primera llamada | `200` con la CDR, como siempre. |
+| Reintento de algo ya emitido | `200` con el mismo resultado y la cabecera `Idempotent-Replay: true`. |
+| Hay una emisión en curso con esa clave | `409` con `documentId`, `serie`, `correlativo` y `state`. |
+
+El `409` no es un error definitivo: significa que otra petición con la misma clave
+sigue en vuelo, o que un intento anterior quedó a medias. Consulta
+`GET /invoice/status` con la serie y el correlativo que devuelve el `409` para saber
+si SUNAT llegó a recibirlo, en vez de reintentar a ciegas.
+
+La clave es **única por empresa**: dos empresas pueden usar la misma sin colisionar.
+La cabecera es opcional y quien no la envía sigue funcionando igual que antes, pero
+sin protección contra duplicados.
+
+::: tip Recomendado para clientes móviles
+Genera la clave **antes** del primer intento y reutilízala en todos los reintentos de
+esa misma venta. Si generas una clave nueva por intento, la protección no sirve de nada.
+:::
+
 ## Documentos · `Bearer`
 
 | Método | Ruta | Descripción |
@@ -74,7 +112,7 @@ Todos los grupos aceptan además `/xml`, `/pdf` y `/enqueue` según corresponda.
 | `400` | Payload inválido o totales incoherentes. |
 | `401` | Falta el token o la clave maestra, o son inválidos. |
 | `404` | No existe, o pertenece a otra empresa. |
-| `409` | Serie y correlativo ya registrados. |
+| `409` | Serie y correlativo ya registrados, o hay una emisión en curso con esa `Idempotency-Key`. |
 | `422` | SUNAT rechazó el comprobante. |
 | `501` | Función no habilitada (por ejemplo, la cola sin Redis). |
 | `503` | SUNAT no disponible; reintentable. |
